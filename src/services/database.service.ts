@@ -7,12 +7,12 @@ export async function connectToDatabase() {
   dotenv.config();
 
   const client: mongoDB.MongoClient = new mongoDB.MongoClient(
-    process.env.DB_CONN_STRING ?? ""
+    process.env.MONGODB_URI ?? ""
   );
 
   await client.connect();
 
-  const db: mongoDB.Db = client.db(process.env.DB_NAME);
+  const db: mongoDB.Db = client.db("f1db");
 
   const driverCollection: mongoDB.Collection = db.collection("driver");
 
