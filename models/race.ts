@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import Circuit from "./circuit";
 
 export default class Race {
   constructor(
@@ -20,6 +21,7 @@ export default class Race {
     public quali_time: string,
     public sprint_date: Date,
     public sprint_time: string,
+    public circuit: Circuit,
     public _id: ObjectId
   ) {}
 }

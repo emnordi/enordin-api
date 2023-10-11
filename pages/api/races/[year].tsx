@@ -9,7 +9,17 @@ export const getRacesForYear = async (year: number): Promise<Race[]> => {
   const data = (await mongoClient
     .db("f1db")
     .collection("race")
-    .find({ year: year })
+    .aggregate([
+      {
+        $lookup: {
+          from: "circuit",
+          localField: "circuitId",
+          foreignField: "circuitId",
+          as: "race",
+        },
+        $match: { year: year },
+      },
+    ])
     .sort({ round: 1 })
     .toArray()) as Race[];
 
