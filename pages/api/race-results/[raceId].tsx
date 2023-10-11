@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import RaceResult from "../../../models/raceResult";
+import NextCors from "nextjs-cors";
 
 export const getRaceResult = async (raceId: number): Promise<RaceResult[]> => {
   const mongoClient = await clientPromise;
@@ -23,6 +24,10 @@ export default async (
     | { deletedCount: number }
   >
 ) => {
+  await NextCors(req, res, {
+    methods: ["GET", "POST"],
+    optionsSuccessStatus: 200,
+  });
   const raceId = req.query.raceId!;
 
   if (req.method === "GET") {
