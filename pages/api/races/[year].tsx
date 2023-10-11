@@ -9,6 +9,7 @@ export const getRacesForYear = async (year: number): Promise<Race[]> => {
     .db("f1db")
     .collection("race")
     .find({ year: year })
+    .sort({ round: 1 })
     .toArray()) as Race[];
 
   return data;
