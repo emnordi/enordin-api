@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import Race from "./race";
+import Driver from "./driver";
 
 export default class RaceResult {
   constructor(
@@ -19,7 +19,7 @@ export default class RaceResult {
     public fastestLap: number,
     public fastestLapTime: string,
     public statusId: number,
-    public race: Race,
+    public driver: Driver,
     public _id: ObjectId
   ) {}
 }

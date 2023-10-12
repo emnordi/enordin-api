@@ -1,14 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
-import RaceResult from "../../../models/raceResult";
 import NextCors from "nextjs-cors";
+import QualifyingResult from "../../../models/qualifyingResult";
 
-export const getRaceResult = async (raceId: number): Promise<RaceResult[]> => {
+export const getRaceResult = async (
+  raceId: number
+): Promise<QualifyingResult[]> => {
   const mongoClient = await clientPromise;
 
   const data = (await mongoClient
     .db("f1db")
-    .collection("race_result")
+    .collection("qualifying_result")
     .aggregate([
       {
         $lookup: {
@@ -27,7 +29,7 @@ export const getRaceResult = async (raceId: number): Promise<RaceResult[]> => {
         $unwind: "$driver",
       },
     ])
-    .toArray()) as RaceResult[];
+    .toArray()) as QualifyingResult[];
 
   return data;
 };
@@ -36,7 +38,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<
     | { modifiedCount: number }
-    | { raceResults: RaceResult[] }
+    | { qualifyingResults: QualifyingResult[] }
     | { error: string }
     | { deletedCount: number }
   >
@@ -51,9 +53,9 @@ export default async (
     const data = await getRaceResult(+raceId as number);
 
     if (!data) {
-      res.status(404).json({ error: "Race result not found" });
+      res.status(404).json({ error: "Qualifying results not found" });
     }
 
-    res.status(200).json({ raceResults: data });
+    res.status(200).json({ qualifyingResults: data });
   }
 };
