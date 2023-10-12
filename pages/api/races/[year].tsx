@@ -15,9 +15,13 @@ export const getRacesForYear = async (year: number): Promise<Race[]> => {
           from: "circuit",
           localField: "circuitId",
           foreignField: "circuitId",
-          as: "race",
+          as: "circuit",
         },
-        $match: { year: year },
+      },
+      {
+        $match: {
+          year: year,
+        },
       },
     ])
     .sort({ round: 1 })
