@@ -23,6 +23,9 @@ export const getRacesForYear = async (year: number): Promise<Race[]> => {
           year: year,
         },
       },
+      {
+        $unwind: "$circuit",
+      },
     ])
     .sort({ round: 1 })
     .toArray()) as Race[];
