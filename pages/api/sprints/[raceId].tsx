@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import SprintResult from "../../../models/sprint";
+import NextCors from "nextjs-cors";
 
 export const getCircuit = async (raceId: number): Promise<SprintResult[]> => {
   const mongoClient = await clientPromise;
