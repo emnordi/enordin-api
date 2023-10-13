@@ -2,8 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import SprintResult from "../../../models/sprint";
 import NextCors from "nextjs-cors";
+import RaceResult from "../../../models/raceResult";
 
-export const getCircuit = async (raceId: number): Promise<SprintResult[]> => {
+export const getCircuit = async (raceId: number): Promise<RaceResult[]> => {
   const mongoClient = await clientPromise;
 
   const data = (await mongoClient
@@ -38,7 +39,7 @@ export const getCircuit = async (raceId: number): Promise<SprintResult[]> => {
         $unwind: "$team",
       },
     ])
-    .toArray()) as SprintResult[];
+    .toArray()) as RaceResult[];
 
   return data;
 };
@@ -47,7 +48,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<
     | { modifiedCount: number }
-    | { sprintResults: SprintResult[] }
+    | { raceResults: RaceResult[] }
     | { error: string }
     | { deletedCount: number }
   >
@@ -66,6 +67,6 @@ export default async (
       res.status(404).json({ error: "Sprint result not found" });
     }
 
-    res.status(200).json({ sprintResults: data });
+    res.status(200).json({ raceResults: data });
   }
 };
