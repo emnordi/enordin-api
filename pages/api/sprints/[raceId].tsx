@@ -1,15 +1,43 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
-import Sprint from "../../../models/sprint";
+import SprintResult from "../../../models/sprint";
 
-export const getCircuit = async (raceId: number): Promise<Sprint[]> => {
+export const getCircuit = async (raceId: number): Promise<SprintResult[]> => {
   const mongoClient = await clientPromise;
 
   const data = (await mongoClient
     .db("f1db")
     .collection("sprint_result")
-    .find({ raceId: raceId })
-    .toArray()) as Sprint[];
+    .aggregate([
+      {
+        $lookup: {
+          from: "driver",
+          localField: "driverId",
+          foreignField: "driverId",
+          as: "driver",
+        },
+      },
+      {
+        $lookup: {
+          from: "constructor",
+          localField: "constructorId",
+          foreignField: "constructorId",
+          as: "team",
+        },
+      },
+      {
+        $match: {
+          raceId: raceId,
+        },
+      },
+      {
+        $unwind: "$driver",
+      },
+      {
+        $unwind: "$team",
+      },
+    ])
+    .toArray()) as SprintResult[];
 
   return data;
 };
@@ -18,7 +46,7 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<
     | { modifiedCount: number }
-    | { sprintResults: Sprint[] }
+    | { sprintResults: SprintResult[] }
     | { error: string }
     | { deletedCount: number }
   >

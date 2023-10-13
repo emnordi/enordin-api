@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import Driver from "./driver";
+import Constructor from "./constructor";
 
 export default class RaceResult {
   constructor(
@@ -20,6 +21,7 @@ export default class RaceResult {
     public fastestLapTime: string,
     public statusId: number,
     public driver: Driver,
+    public team: Constructor,
     public _id: ObjectId
   ) {}
 }

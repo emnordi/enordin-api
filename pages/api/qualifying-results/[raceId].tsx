@@ -21,12 +21,23 @@ export const getRaceResult = async (
         },
       },
       {
+        $lookup: {
+          from: "constructor",
+          localField: "constructorId",
+          foreignField: "constructorId",
+          as: "team",
+        },
+      },
+      {
         $match: {
           raceId: raceId,
         },
       },
       {
         $unwind: "$driver",
+      },
+      {
+        $unwind: "$team",
       },
     ])
     .toArray()) as QualifyingResult[];

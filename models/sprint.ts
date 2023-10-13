@@ -1,7 +1,8 @@
 import { ObjectId } from "mongodb";
 import Race from "./race";
+import Constructor from "./constructor";
 
-export default class Sprint {
+export default class SprintResult {
   constructor(
     public resultId: number,
     public raceId: number,
@@ -20,6 +21,7 @@ export default class Sprint {
     public fastestLapTime: string,
     public statusId: number,
     public race: Race,
+    public team: Constructor,
     public _id: ObjectId
   ) {}
 }

@@ -2,13 +2,13 @@ import { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import NextCors from "nextjs-cors";
-import Sprint from "../../../models/sprint";
+import SprintResult from "../../../models/sprint";
 
 type Return = {
-  sprintResults: Sprint[];
+  sprintResults: SprintResult[];
 };
 
-export const getSprintResults = async (): Promise<Sprint[]> => {
+export const getSprintResults = async (): Promise<SprintResult[]> => {
   const mongoClient = await clientPromise;
 
   const data = (await mongoClient
@@ -24,7 +24,7 @@ export const getSprintResults = async (): Promise<Sprint[]> => {
         },
       },
     ])
-    .toArray()) as Sprint[];
+    .toArray()) as SprintResult[];
 
   return JSON.parse(JSON.stringify(data));
 };

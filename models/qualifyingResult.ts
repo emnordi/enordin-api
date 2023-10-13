@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import Driver from "./driver";
+import Constructor from "./constructor";
 
 export default class QualifyingResult {
   constructor(
@@ -10,6 +11,7 @@ export default class QualifyingResult {
     public number: number,
     public position: number,
     public driver: Driver,
+    public team: Constructor,
     public _id: ObjectId
   ) {}
 }

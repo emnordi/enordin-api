@@ -19,12 +19,23 @@ export const getRaceResult = async (raceId: number): Promise<RaceResult[]> => {
         },
       },
       {
+        $lookup: {
+          from: "constructor",
+          localField: "constructorId",
+          foreignField: "constructorId",
+          as: "team",
+        },
+      },
+      {
         $match: {
           raceId: raceId,
         },
       },
       {
         $unwind: "$driver",
+      },
+      {
+        $unwind: "$team",
       },
     ])
     .toArray()) as RaceResult[];
