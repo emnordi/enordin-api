@@ -51,6 +51,11 @@ export default async (
     | { deletedCount: number }
   >
 ) => {
+  await NextCors(req, res, {
+    methods: ["GET", "POST"],
+    optionsSuccessStatus: 200,
+  });
+
   const raceId = req.query.raceId!;
 
   if (req.method === "GET") {
