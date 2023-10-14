@@ -29,6 +29,7 @@ export const getDriverStandings = async (
         $unwind: "$driver",
       },
     ])
+    .sort({ position: 1 })
     .toArray()) as DriverStanding[];
 
   return data;

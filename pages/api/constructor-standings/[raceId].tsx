@@ -29,6 +29,7 @@ export const getConstructorStandings = async (
         $unwind: "$team",
       },
     ])
+    .sort({ position: 1 })
     .toArray()) as ConstructorStanding[];
 
   return data;
